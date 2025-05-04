@@ -1,0 +1,10 @@
+{
+  "name": "Searchcaster",
+  "description": "Search the web without leaving Farcaster.",
+  "url": "https://searchcaster-lite.vercel.app/",
+  "icons": ["https://searchcaster-lite.vercel.app/preview.png"],
+  "developer": {
+    "name": "aminphantom.eth",
+    "url": "https://warpcast.com/aminphantom.eth"
+  }
+}
