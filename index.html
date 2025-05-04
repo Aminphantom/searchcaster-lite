@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SearchCaster Lite</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen p-4">
+
+  <h1 class="text-2xl font-bold mb-4">SearchCaster Lite</h1>
+
+  <div class="w-full max-w-md">
+    <input id="searchInput" type="text" placeholder="Type something..." class="w-full p-2 border border-gray-300 rounded mb-2" />
+    <button id="searchButton" class="w-full bg-purple-600 text-white p-2 rounded">Search</button>
+  </div>
+
+  <div id="results" class="mt-6 w-full max-w-md space-y-4">
+    <!-- Search results will appear here -->
+  </div>
+
+  <footer class="mt-auto text-sm text-gray-500 py-4">
+    Made by <a href="https://warpcast.com/aminphantom.eth" class="text-purple-600">@aminphantom.eth</a>
+  </footer>
+
+  <script>
+    document.getElementById("searchButton").addEventListener("click", async () => {
+      const input = document.getElementById("searchInput").value;
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = `<p class="text-gray-600">Searching for "${input}"...</p>`;
+
+      try {
+        const res = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(input)}`);
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+          resultsDiv.innerHTML = `<p class="text-gray-500">No results found.</p>`;
+          return;
+        }
+
+        resultsDiv.innerHTML = data.map(result => `
+          <div class="bg-white p-4 rounded shadow">
+            <a href="${result.link}" target="_blank" class="text-lg font-semibold text-purple-600 hover:underline">${result.title}</a>
+            <p class="text-gray-600">${result.snippet}</p>
+          </div>
+        `).join("");
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+        resultsDiv.innerHTML = `<p class="text-red-500">Error fetching results.</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
