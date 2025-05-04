@@ -30,7 +30,7 @@
       resultsDiv.innerHTML = `<p class="text-gray-600">Searching for "${input}"...</p>`;
 
       try {
-        const res = await fetch(`http://localhost:3000/search?q=${encodeURIComponent(input)}`);
+        cconst res = await fetch(`/search?q=${encodeURIComponent(input)}`);
         const data = await res.json();
 
         if (!Array.isArray(data) || data.length === 0) {
